@@ -1,0 +1,98 @@
+.game-screen {
+
+  .game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    .info {
+      p {
+        text-align: center;
+        padding-bottom: 2rem;
+        font-size: 2.4rem;
+      }
+    }
+
+    .game {
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 25vw;
+      height: 25vw;
+      gap: 10px;
+
+      .game-btn {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+      }
+
+      $hover-darken-amount: 5%;
+
+      #red-game-button {
+        background-color: $red;
+
+        &:hover {
+          background-color: darken($red, $hover-darken-amount);
+        }
+      }
+
+      #blue-game-button {
+        background-color: $blue;
+
+        &:hover {
+          background-color: darken($blue, $hover-darken-amount);
+        }
+      }
+
+      #green-game-button {
+        background-color: $green;
+
+        &:hover {
+          background-color: darken($green, $hover-darken-amount);
+        }
+      }
+
+      #yellow-game-button {
+        background-color: $yellow;
+
+        &:hover {
+          background-color: darken($yellow, $hover-darken-amount + 5%);
+        }
+      }
+
+      $active-lighten-amount: 20%;
+
+      .red-active {
+        background-color: lighten($red, $active-lighten-amount) !important;
+      }
+
+      .green-active {
+        background-color: lighten($green, $active-lighten-amount) !important;
+      }
+
+      .blue-active {
+        background-color: lighten($blue, $active-lighten-amount) !important;
+      }
+
+      .yellow-active {
+        background-color: lighten($yellow, $active-lighten-amount + 5%) !important;
+      }
+
+    }
+  }
+}
+
+.no-button-presses {
+  .game-btn {
+    pointer-events: none;
+
+  }
+}

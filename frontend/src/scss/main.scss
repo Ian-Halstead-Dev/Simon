@@ -1,0 +1,23 @@
+@import 'resets';
+@import 'vars';
+
+
+p {
+  font-size: $body-text-size;
+}
+
+.game-title {
+  font-size: 12rem;
+}
+
+.center {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
+@import 'btn';
+@import 'table';
+@import 'title';
+@import 'game-screen';
+@import 'modal';

@@ -1,0 +1,31 @@
+.btn {
+  padding: 1.5rem 3rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: $body-text-size;
+}
+
+.btn-green {
+  background-color: $green;
+  transition: background-color .2s;
+
+
+  &:hover {
+    background-color: lighten($green, 5%);
+  }
+}
+
+.btn-ghost {
+  border: 2px solid #000;
+  font-size: 3rem;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.btn-disabled {
+  opacity: .2;
+  pointer-events: none;
+}
