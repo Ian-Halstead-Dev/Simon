@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/main.backend.js",
+    "start": "cd frontend && npm i && cd ../backend && npm i && cd ../ &&  node backend/main.backend.js",
     "dev": "concurrently \"nodemon backend/main.backend.js\" \"babel frontend/src/js/app.frontend.js --out-file=frontend/public/js/app.frontend.js --presets=\"env,react\" --watch\""
   },
   "repository": {
