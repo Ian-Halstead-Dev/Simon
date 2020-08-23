@@ -1,0 +1,20 @@
+{
+  "name": "simon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/main.backend.js",
+    "dev": "concurrently \"nodemon backend/main.backend.js\" \"babel frontend/src/js/app.frontend.js --out-file=frontend/public/js/app.frontend.js --presets=\"env,react\" --watch\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ian-Halstead-Dev/Simon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ian-Halstead-Dev/Simon/issues"
+  },
+  "homepage": "https://github.com/Ian-Halstead-Dev/Simon#readme"
+}

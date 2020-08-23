@@ -1,13 +1,26 @@
+@import 'breakpoints';
 @import 'resets';
 @import 'vars';
 
 
 p {
   font-size: $body-text-size;
+
+
 }
 
 .game-title {
   font-size: 12rem;
+
+  @include for-tablet-landscape-down {
+    font-size: 10rem;
+  }
+
+  @include for-phone-down {
+    font-size: 6rem;
+
+  }
+
 }
 
 .center {

@@ -18,6 +18,11 @@ const scoreSchema = new mongoose.Schema({
 		}
 	},
 
+	ip: {
+		type: String,
+		required: true
+	},
+
 	date: {
 		type: Date,
 		default: Date.now

@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const connectionUrl = 'mongodb://127.0.0.1:27017/simon-api';
+dotenv.config();
+
+const connectionUrl = process.env.dbName;
 
 const connectToDb = () => {
 	mongoose.connect(connectionUrl, {

@@ -69,7 +69,7 @@ class ScoreBoard extends React.Component {
 	finishTableData(scores) {
 		scores.sort((a, b) => b.score - a.score);
 		let jsxExpressions = [];
-		for (let i = 0; i < (scores.length > 20 ? 20 : scores.length - 1); i++) {
+		for (let i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
 			jsxExpressions.push(
 				<tr key={i}>
 					<td>{scores[i].user}</td>

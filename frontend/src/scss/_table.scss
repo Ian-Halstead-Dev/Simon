@@ -19,6 +19,10 @@ table {
         font-weight: 900;
         text-decoration: underline;
         padding: 1rem 0;
+
+        @include for-tablet-landscape-down {
+          font-size: 4rem;
+        }
       }
     }
   }

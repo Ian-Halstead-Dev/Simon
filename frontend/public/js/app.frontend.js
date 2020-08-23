@@ -132,7 +132,7 @@ var ScoreBoard = function (_React$Component3) {
 				return b.score - a.score;
 			});
 			var jsxExpressions = [];
-			for (var i = 0; i < (scores.length > 20 ? 20 : scores.length - 1); i++) {
+			for (var i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
 				jsxExpressions.push(React.createElement(
 					'tr',
 					{ key: i },

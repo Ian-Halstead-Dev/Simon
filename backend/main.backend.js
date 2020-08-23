@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve(path.dirname(''));
 
-const publicDirPath = path.join(__dirname, '../frontend', '/public');
-
+const publicDirPath = path.join(__dirname, '/frontend/public');
+console.log(publicDirPath);
 app.use(express.static(publicDirPath));
 
 app.use(express.json());

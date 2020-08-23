@@ -3,6 +3,15 @@
   cursor: pointer;
   font-weight: bold;
   font-size: $body-text-size;
+
+  @include for-tablet-landscape-down {
+    font-size: $body-text-size + 2rem;
+  }
+
+  @include for-phone-down {
+    font-size: 1rem;
+    padding: 1rem 2rem;
+  }
 }
 
 .btn-green {
@@ -18,6 +27,15 @@
 .btn-ghost {
   border: 2px solid #000;
   font-size: 3rem;
+
+  @include for-tablet-landscape-down {
+    font-size: $body-text-size + 4rem;
+  }
+
+  @include for-phone-down {
+    font-size: 3rem;
+
+  }
 
   &:hover {
     background-color: black;

@@ -4,11 +4,12 @@ const router = express.Router();
 
 router.get('/score', async (req, res) => {
 	const scores = await Score.find();
-	console.log(scores);
+
 	res.send(scores);
 });
 
 router.post('/score', async (req, res) => {
+	req.body.ip = req.ip;
 	const score = new Score(req.body);
 
 	try {
