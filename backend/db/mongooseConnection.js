@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionUrl = process.env.dbName;
+const connectionUrl = process.env.DBNAME;
 
 const connectToDb = () => {
 	mongoose.connect(connectionUrl, {
