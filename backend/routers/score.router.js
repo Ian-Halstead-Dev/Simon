@@ -9,7 +9,6 @@ router.get('/score', async (req, res) => {
 });
 
 router.post('/score', async (req, res) => {
-	req.body.ip = req.ip;
 	const score = new Score(req.body);
 
 	try {
