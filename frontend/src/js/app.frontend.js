@@ -124,6 +124,13 @@ class GameScreen extends React.Component {
 	componentDidMount() {
 		this.createTriggers();
 		this.resetGame();
+		this.resetAudio();
+	}
+
+	resetAudio() {
+		Object.keys(this.props.beep).forEach((color) => {
+			this.props.beep[color].load();
+		});
 	}
 
 	//Resets the state for when the game is mounted.

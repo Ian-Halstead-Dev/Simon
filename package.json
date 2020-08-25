@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd frontend && npm i && cd ../backend && npm i && cd ../ &&  node backend/main.backend.js",
+    "start": "node backend/main.backend.js",
     "dev": "concurrently \"nodemon backend/main.backend.js\" \"babel frontend/src/js/app.frontend.js --out-file=frontend/public/js/app.frontend.js --presets=\"env,react\" --watch\""
   },
   "repository": {
@@ -16,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/Ian-Halstead-Dev/Simon/issues"
   },
-  "homepage": "https://github.com/Ian-Halstead-Dev/Simon#readme"
+  "homepage": "https://github.com/Ian-Halstead-Dev/Simon#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.10.0",
+    "path": "^0.12.7"
+  },
+  "type": "module"
 }

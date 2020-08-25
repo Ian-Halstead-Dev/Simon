@@ -222,6 +222,16 @@ var GameScreen = function (_React$Component4) {
 		value: function componentDidMount() {
 			this.createTriggers();
 			this.resetGame();
+			this.resetAudio();
+		}
+	}, {
+		key: 'resetAudio',
+		value: function resetAudio() {
+			var _this6 = this;
+
+			Object.keys(this.props.beep).forEach(function (color) {
+				_this6.props.beep[color].load();
+			});
 		}
 
 		//Resets the state for when the game is mounted.
@@ -285,7 +295,7 @@ var GameScreen = function (_React$Component4) {
 	}, {
 		key: 'playSequence',
 		value: function playSequence() {
-			var _this6 = this;
+			var _this7 = this;
 
 			this.setState(function () {
 				return { canPressButton: false };
@@ -306,13 +316,13 @@ var GameScreen = function (_React$Component4) {
 			var i = 1;
 			var interval = setInterval(function () {
 				if (i === sequence.length) {
-					_this6.setState(function () {
+					_this7.setState(function () {
 						return { canPressButton: true };
 					});
 					return clearInterval(interval);
 				}
 				var color = sequence[i];
-				_this6.pressButton(color);
+				_this7.pressButton(color);
 				i++;
 			}, 1000);
 		}
@@ -333,7 +343,7 @@ var GameScreen = function (_React$Component4) {
 	}, {
 		key: 'playerButtonPressed',
 		value: function playerButtonPressed(color) {
-			var _this7 = this;
+			var _this8 = this;
 
 			this.setState(function () {
 				return { canPressButton: false };
@@ -354,7 +364,7 @@ var GameScreen = function (_React$Component4) {
 				});
 			} else {
 				setTimeout(function () {
-					_this7.setState(function () {
+					_this8.setState(function () {
 						return {
 							canPressButton: true
 						};
@@ -365,7 +375,7 @@ var GameScreen = function (_React$Component4) {
 	}, {
 		key: 'saveScore',
 		value: function saveScore(e) {
-			var _this8 = this;
+			var _this9 = this;
 
 			e.preventDefault();
 			fetch('/score', {
@@ -378,17 +388,17 @@ var GameScreen = function (_React$Component4) {
 				return userReq.json();
 			}).then(function (user) {
 				if (user._id) {
-					_this8.props.goToTitle();
+					_this9.props.goToTitle();
 				} else {
 					document.getElementById('username').value = '';
 					switch (user.errors.user.kind) {
 						case 'maxlength':
-							_this8.setState(function () {
+							_this9.setState(function () {
 								return { error: 'Username must be shorter than 16 characters' };
 							});
 							break;
 						case 'required':
-							_this8.setState(function () {
+							_this9.setState(function () {
 								return { error: 'Username must be added' };
 							});
 					}
@@ -398,7 +408,7 @@ var GameScreen = function (_React$Component4) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this9 = this;
+			var _this10 = this;
 
 			return React.createElement(
 				'div',
@@ -439,7 +449,7 @@ var GameScreen = function (_React$Component4) {
 					this.state.readyButton ? React.createElement(
 						'div',
 						{ className: 'btn btn-ghost', onClick: function onClick() {
-								return _this9.playSequence();
+								return _this10.playSequence();
 							} },
 						'Ready!'
 					) : React.createElement(
