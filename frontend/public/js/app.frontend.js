@@ -347,7 +347,7 @@ var GameScreen = function (_React$Component4) {
 				var color = sequence[i];
 				_this7.pressButton(color);
 				i++;
-			}, 350);
+			}, 500);
 		}
 	}, {
 		key: 'pressButton',

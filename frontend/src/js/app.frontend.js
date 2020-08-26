@@ -213,7 +213,7 @@ class GameScreen extends React.Component {
 			let color = sequence[i];
 			this.pressButton(color);
 			i++;
-		}, 350);
+		}, 500);
 	}
 
 	pressButton(color) {
