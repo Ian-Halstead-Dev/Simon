@@ -69,13 +69,27 @@ class ScoreBoard extends React.Component {
 	finishTableData(scores) {
 		scores.sort((a, b) => b.score - a.score);
 		let jsxExpressions = [];
-		for (let i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
-			jsxExpressions.push(
-				<tr key={i}>
-					<td>{scores[i].user}</td>
-					<td>{scores[i].score}</td>
-				</tr>
-			);
+
+		//Checks the screen width to find the phones and display only 10 scores
+		if (window.screen.width > 600) {
+			for (let i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
+				jsxExpressions.push(
+					<tr key={i}>
+						<td>{scores[i].user}</td>
+						<td>{scores[i].score}</td>
+					</tr>
+				);
+			}
+		}
+		else {
+			for (let i = 0; i < (scores.length > 10 ? 10 : scores.length); i++) {
+				jsxExpressions.push(
+					<tr key={i}>
+						<td>{scores[i].user}</td>
+						<td>{scores[i].score}</td>
+					</tr>
+				);
+			}
 		}
 
 		return jsxExpressions;
@@ -108,9 +122,10 @@ class GameScreen extends React.Component {
 			selectionArray: [],
 			selectionsDup: [],
 			readyButton: true,
-			canPressButton: false,
+			canStartSequence: false,
 			loginModal: false,
-			error: ''
+			error: '',
+			canSaveScore: true
 		};
 
 		this.playerButtonPressed = this.playerButtonPressed.bind(this);
@@ -140,9 +155,10 @@ class GameScreen extends React.Component {
 			selectionArray: [],
 			selectionsDup: [],
 			readyButton: true,
-			canPressButton: false,
+			canStartSequence: false,
 			loginModal: false,
-			error: ''
+			error: '',
+			canSaveScore: true
 		}));
 	}
 
@@ -178,7 +194,7 @@ class GameScreen extends React.Component {
 
 	// Plays the sequence for the player to memorize and adds a color to selectionArray using this.addRandomColor()
 	playSequence() {
-		this.setState(() => ({ canPressButton: false }));
+		this.setState(() => ({ canStartSequence: false }));
 
 		this.addRandomColor();
 		let selectionsDupTemp = [];
@@ -191,7 +207,7 @@ class GameScreen extends React.Component {
 		let i = 1;
 		const interval = setInterval(() => {
 			if (i === sequence.length) {
-				this.setState(() => ({ canPressButton: true }));
+				this.setState(() => ({ canStartSequence: true }));
 				return clearInterval(interval);
 			}
 			let color = sequence[i];
@@ -212,7 +228,7 @@ class GameScreen extends React.Component {
 
 	// Handles the logic for when a player presses a button
 	playerButtonPressed(color) {
-		this.setState(() => ({ canPressButton: false }));
+		this.setState(() => ({ canStartSequence: false }));
 
 		const selections = this.state.selectionsDup;
 		if (!(color === selections[0])) {
@@ -222,12 +238,12 @@ class GameScreen extends React.Component {
 		selections.shift();
 
 		if (selections.length === 0) {
-			this.setState((prevState) => ({ readyButton: true, score: prevState.score + 1, canPressButton: false }));
+			this.setState((prevState) => ({ readyButton: true, score: prevState.score + 1, canStartSequence: false }));
 		}
 		else {
 			setTimeout(() => {
 				this.setState(() => ({
-					canPressButton: true
+					canStartSequence: true
 				}));
 			}, 275);
 		}
@@ -235,29 +251,37 @@ class GameScreen extends React.Component {
 
 	saveScore(e) {
 		e.preventDefault();
-		fetch('/score', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: JSON.stringify({ user: document.getElementById('username').value, score: this.state.score })
-		})
-			.then((userReq) => userReq.json())
-			.then((user) => {
-				if (user._id) {
-					this.props.goToTitle();
-				}
-				else {
-					document.getElementById('username').value = '';
-					switch (user.errors.user.kind) {
-						case 'maxlength':
-							this.setState(() => ({ error: 'Username must be shorter than 16 characters' }));
-							break;
-						case 'required':
-							this.setState(() => ({ error: 'Username must be added' }));
+
+		if (this.state.canSaveScore) {
+			this.setState(() => ({ canSaveScore: false }));
+			fetch('/score', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8'
+				},
+				body: JSON.stringify({ user: document.getElementById('username').value, score: this.state.score })
+			})
+				.then((userReq) => userReq.json())
+				.then((user) => {
+					if (user._id) {
+						this.props.goToTitle();
 					}
-				}
-			});
+					else {
+						document.getElementById('username').value = '';
+						this.setState(() => ({ canSaveScore: true }));
+						switch (user.errors.user.kind) {
+							case 'maxlength':
+								this.setState(() => ({ error: 'Username must be shorter than 16 characters' }));
+								break;
+							case 'required':
+								this.setState(() => ({ error: 'Username must be added' }));
+								break;
+							case 'user defined':
+								this.setState(() => ({ error: user.errors.user.message }));
+						}
+					}
+				});
+		}
 	}
 
 	render() {
@@ -268,7 +292,7 @@ class GameScreen extends React.Component {
 						<h1 className="game-title">Simon</h1>
 						<p>Score: {this.state.score}</p>
 					</div>
-					{this.state.canPressButton ? (
+					{this.state.canStartSequence ? (
 						<div className="game">
 							<GameButton playerButtonPressed={this.playerButtonPressed} color="yellow" />
 							<GameButton playerButtonPressed={this.playerButtonPressed} color="blue" />

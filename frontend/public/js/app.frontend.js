@@ -132,21 +132,42 @@ var ScoreBoard = function (_React$Component3) {
 				return b.score - a.score;
 			});
 			var jsxExpressions = [];
-			for (var i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
-				jsxExpressions.push(React.createElement(
-					'tr',
-					{ key: i },
-					React.createElement(
-						'td',
-						null,
-						scores[i].user
-					),
-					React.createElement(
-						'td',
-						null,
-						scores[i].score
-					)
-				));
+
+			//Checks the screen width to find the phones and display only 10 scores
+			if (window.screen.width > 600) {
+				for (var i = 0; i < (scores.length > 20 ? 20 : scores.length); i++) {
+					jsxExpressions.push(React.createElement(
+						'tr',
+						{ key: i },
+						React.createElement(
+							'td',
+							null,
+							scores[i].user
+						),
+						React.createElement(
+							'td',
+							null,
+							scores[i].score
+						)
+					));
+				}
+			} else {
+				for (var _i = 0; _i < (scores.length > 10 ? 10 : scores.length); _i++) {
+					jsxExpressions.push(React.createElement(
+						'tr',
+						{ key: _i },
+						React.createElement(
+							'td',
+							null,
+							scores[_i].user
+						),
+						React.createElement(
+							'td',
+							null,
+							scores[_i].score
+						)
+					));
+				}
 			}
 
 			return jsxExpressions;
@@ -203,9 +224,10 @@ var GameScreen = function (_React$Component4) {
 			selectionArray: [],
 			selectionsDup: [],
 			readyButton: true,
-			canPressButton: false,
+			canStartSequence: false,
 			loginModal: false,
-			error: ''
+			error: '',
+			canSaveScore: true
 		};
 
 		_this5.playerButtonPressed = _this5.playerButtonPressed.bind(_this5);
@@ -245,9 +267,10 @@ var GameScreen = function (_React$Component4) {
 					selectionArray: [],
 					selectionsDup: [],
 					readyButton: true,
-					canPressButton: false,
+					canStartSequence: false,
 					loginModal: false,
-					error: ''
+					error: '',
+					canSaveScore: true
 				};
 			});
 		}
@@ -298,7 +321,7 @@ var GameScreen = function (_React$Component4) {
 			var _this7 = this;
 
 			this.setState(function () {
-				return { canPressButton: false };
+				return { canStartSequence: false };
 			});
 
 			this.addRandomColor();
@@ -317,7 +340,7 @@ var GameScreen = function (_React$Component4) {
 			var interval = setInterval(function () {
 				if (i === sequence.length) {
 					_this7.setState(function () {
-						return { canPressButton: true };
+						return { canStartSequence: true };
 					});
 					return clearInterval(interval);
 				}
@@ -346,7 +369,7 @@ var GameScreen = function (_React$Component4) {
 			var _this8 = this;
 
 			this.setState(function () {
-				return { canPressButton: false };
+				return { canStartSequence: false };
 			});
 
 			var selections = this.state.selectionsDup;
@@ -360,13 +383,13 @@ var GameScreen = function (_React$Component4) {
 
 			if (selections.length === 0) {
 				this.setState(function (prevState) {
-					return { readyButton: true, score: prevState.score + 1, canPressButton: false };
+					return { readyButton: true, score: prevState.score + 1, canStartSequence: false };
 				});
 			} else {
 				setTimeout(function () {
 					_this8.setState(function () {
 						return {
-							canPressButton: true
+							canStartSequence: true
 						};
 					});
 				}, 275);
@@ -378,32 +401,46 @@ var GameScreen = function (_React$Component4) {
 			var _this9 = this;
 
 			e.preventDefault();
-			fetch('/score', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json;charset=utf-8'
-				},
-				body: JSON.stringify({ user: document.getElementById('username').value, score: this.state.score })
-			}).then(function (userReq) {
-				return userReq.json();
-			}).then(function (user) {
-				if (user._id) {
-					_this9.props.goToTitle();
-				} else {
-					document.getElementById('username').value = '';
-					switch (user.errors.user.kind) {
-						case 'maxlength':
-							_this9.setState(function () {
-								return { error: 'Username must be shorter than 16 characters' };
-							});
-							break;
-						case 'required':
-							_this9.setState(function () {
-								return { error: 'Username must be added' };
-							});
+
+			if (this.state.canSaveScore) {
+				this.setState(function () {
+					return { canSaveScore: false };
+				});
+				fetch('/score', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=utf-8'
+					},
+					body: JSON.stringify({ user: document.getElementById('username').value, score: this.state.score })
+				}).then(function (userReq) {
+					return userReq.json();
+				}).then(function (user) {
+					if (user._id) {
+						_this9.props.goToTitle();
+					} else {
+						document.getElementById('username').value = '';
+						_this9.setState(function () {
+							return { canSaveScore: true };
+						});
+						switch (user.errors.user.kind) {
+							case 'maxlength':
+								_this9.setState(function () {
+									return { error: 'Username must be shorter than 16 characters' };
+								});
+								break;
+							case 'required':
+								_this9.setState(function () {
+									return { error: 'Username must be added' };
+								});
+								break;
+							case 'user defined':
+								_this9.setState(function () {
+									return { error: user.errors.user.message };
+								});
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}, {
 		key: 'render',
@@ -431,7 +468,7 @@ var GameScreen = function (_React$Component4) {
 							this.state.score
 						)
 					),
-					this.state.canPressButton ? React.createElement(
+					this.state.canStartSequence ? React.createElement(
 						'div',
 						{ className: 'game' },
 						React.createElement(GameButton, { playerButtonPressed: this.playerButtonPressed, color: 'yellow' }),
