@@ -221,6 +221,7 @@ class GameScreen extends React.Component {
 
 		// Plays audio sound
 		let audio = this.props.beep[color];
+		audio.volume = 0.2;
 		audio.play();
 
 		element.classList.toggle(`${color}-active`);

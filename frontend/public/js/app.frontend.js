@@ -356,6 +356,7 @@ var GameScreen = function (_React$Component4) {
 
 			// Plays audio sound
 			var audio = this.props.beep[color];
+			audio.volume = 0.2;
 			audio.play();
 
 			element.classList.toggle(color + '-active');
