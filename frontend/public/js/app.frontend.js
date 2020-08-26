@@ -485,13 +485,13 @@ var GameScreen = function (_React$Component4) {
 					),
 					this.state.readyButton ? React.createElement(
 						'div',
-						{ className: 'btn btn-ghost', onClick: function onClick() {
+						{ className: 'btn btn-ghost', id: 'ready-btn', onClick: function onClick() {
 								return _this10.playSequence();
 							} },
 						'Ready!'
 					) : React.createElement(
 						'div',
-						{ className: 'btn btn-ghost btn-disabled', onClick: this.addRandomColor },
+						{ className: 'btn btn-ghost btn-disabled', id: 'ready-btn' },
 						'Ready!'
 					)
 				),

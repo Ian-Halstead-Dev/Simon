@@ -308,11 +308,11 @@ class GameScreen extends React.Component {
 						</div>
 					)}
 					{this.state.readyButton ? (
-						<div className="btn btn-ghost" onClick={() => this.playSequence()}>
+						<div className="btn btn-ghost" id="ready-btn" onClick={() => this.playSequence()}>
 							Ready!
 						</div>
 					) : (
-						<div className="btn btn-ghost btn-disabled" onClick={this.addRandomColor}>
+						<div className="btn btn-ghost btn-disabled" id="ready-btn">
 							Ready!
 						</div>
 					)}
