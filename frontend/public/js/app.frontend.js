@@ -347,7 +347,7 @@ var GameScreen = function (_React$Component4) {
 				var color = sequence[i];
 				_this7.pressButton(color);
 				i++;
-			}, 500);
+			}, 600);
 		}
 	}, {
 		key: 'pressButton',
@@ -355,7 +355,7 @@ var GameScreen = function (_React$Component4) {
 			var element = document.getElementById(color + '-game-button');
 
 			// Plays audio sound
-			var audio = this.props.beep[color];
+			var audio = this.props.beep[color]();
 			audio.volume = 0.2;
 			audio.play();
 

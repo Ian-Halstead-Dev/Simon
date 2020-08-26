@@ -213,14 +213,14 @@ class GameScreen extends React.Component {
 			let color = sequence[i];
 			this.pressButton(color);
 			i++;
-		}, 500);
+		}, 600);
 	}
 
 	pressButton(color) {
 		const element = document.getElementById(`${color}-game-button`);
 
 		// Plays audio sound
-		let audio = this.props.beep[color];
+		let audio = this.props.beep[color]();
 		audio.volume = 0.2;
 		audio.play();
 
